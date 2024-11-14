@@ -15,16 +15,30 @@ return {
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
+  -- {
+  --   'sainnhe/gruvbox-material',
+  --   priority = 1000, -- Make sure to load this before all the other start plugins.
+  --   init = function()
+  --     vim.g.gruvbox_material_enable_italic = true
+  --     vim.g.gruvbox_material_enable_bold = true
+  --
+  --     vim.g.gruvbox_material_better_performance = 1
+  --
+  --     vim.cmd.colorscheme 'gruvbox-material'
+  --   end,
+  -- },
+
   {
-    'sainnhe/gruvbox-material',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    'shaunsingh/nord.nvim',
+    priority = 1000,
     init = function()
-      vim.g.gruvbox_material_enable_italic = true
-      vim.g.gruvbox_material_enable_bold = true
+      vim.g.nord_contrast = true
+      vim.g.nord_borders = false
+      vim.g.nord_disable_background = false
+      vim.g.nord_italic = true
+      vim.g.nord_bold = true
 
-      vim.g.gruvbox_material_better_performance = 1
-
-      vim.cmd.colorscheme 'gruvbox-material'
+      require('nord').set()
     end,
   },
 
@@ -37,11 +51,5 @@ return {
     ---@type oil.SetupOpts
     opts = {},
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-  },
-  {
-    'nvim-neorg/neorg',
-    lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-    version = '*', -- Pin Neorg to the latest stable release
-    config = true,
   },
 }
