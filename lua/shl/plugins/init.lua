@@ -28,19 +28,19 @@ return {
   --   end,
   -- },
 
-  {
-    'shaunsingh/nord.nvim',
-    priority = 1000,
-    init = function()
-      vim.g.nord_contrast = true
-      vim.g.nord_borders = false
-      vim.g.nord_disable_background = false
-      vim.g.nord_italic = true
-      vim.g.nord_bold = true
-
-      require('nord').set()
-    end,
-  },
+  -- {
+  --   'shaunsingh/nord.nvim',
+  --   priority = 1000,
+  --   init = function()
+  --     vim.g.nord_contrast = true
+  --     vim.g.nord_borders = false
+  --     vim.g.nord_disable_background = false
+  --     vim.g.nord_italic = true
+  --     vim.g.nord_bold = true
+  --
+  --     require('nord').set()
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = true } },
