@@ -1,176 +1,124 @@
--- security
-vim.opt.modelines = 0
+--stylua: ignore start
+-- Leader key =================================================================
+vim.g.mapleader = ' '
 
--- set leader key to comma
-vim.g.mapleader = " "
+-- General ====================================================================
+vim.o.backup       = false          -- Don't store backup
+vim.o.mouse        = 'a'            -- Enable mouse
+vim.o.mousescroll  = 'ver:25,hor:6' -- Customize mouse scroll
+vim.o.switchbuf    = 'usetab'       -- Use already opened buffers when switching
+vim.o.writebackup  = false          -- Don't store backup (better performance)
+vim.o.undofile     = true           -- Enable persistent undo
 
--- hide buffers, not close them
-vim.opt.hidden = true
+vim.o.shada        = "'100,<50,s10,:1000,/100,@100,h" -- Limit what is stored in ShaDa file
 
--- maintain undo history between sessions
-vim.opt.swapfile = false
-vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"
+vim.cmd('filetype plugin indent on') -- Enable all filetype plugins
 
--- scroll bounds
-vim.o.scrolloff = 13
+-- UI =========================================================================
+vim.o.breakindent   = true      -- Indent wrapped lines to match line start
+vim.o.colorcolumn   = '+1'      -- Draw colored column one step to the right of desired maximum width
+vim.o.cursorline    = true      -- Enable highlighting of the current line
+vim.o.linebreak     = true      -- Wrap long lines at 'breakat' (if 'wrap' is set)
+vim.o.list          = true      -- Show helpful character indicators
+vim.o.number        = true      -- Show line numbers
+vim.o.pumheight     = 10        -- Make popup menu smaller
+vim.o.ruler         = false     -- Don't show cursor position
+vim.o.shortmess     = 'FOSWaco' -- Disable certain messages from |ins-completion-menu|
+vim.o.showmode      = false     -- Don't show mode in command line
+vim.o.signcolumn    = 'yes'     -- Always show signcolumn or it would frequently shift
+vim.o.splitbelow    = true      -- Horizontal splits will be below
+vim.o.splitright    = true      -- Vertical splits will be to the right
+vim.o.wrap          = false     -- Display long lines as just one line
 
--- ipad scrolling
-vim.opt.mouse = "a"
+vim.o.fillchars = table.concat(
+  -- Special UI symbols
+  { 'eob: ', 'fold:╌', 'horiz:═', 'horizdown:╦', 'horizup:╩', 'vert:║', 'verthoriz:╬', 'vertleft:╣', 'vertright:╠' },
+  ','
+)
+vim.o.listchars = table.concat({ 'extends:…', 'nbsp:␣', 'precedes:…', 'tab:> ' }, ',') -- Special text symbols
+vim.o.cursorlineopt = 'screenline,number' -- Show cursor line only screen line when wrapped
+vim.o.breakindentopt = 'list:-1' -- Add padding for lists when 'wrap' is on
 
--- fuzzy find
-vim.opt.path:append("**")
--- lazy file name tab completion
-vim.opt.wildmode = "list:longest,list:full"
-vim.opt.wildmenu = true
-vim.opt.wildignorecase = true
--- ignore files vim doesnt use
-vim.opt.wildignore:append(".git,.hg,.svn")
-vim.opt.wildignore:append(".aux,*.out,*.toc")
-vim.opt.wildignore:append(".o,*.obj,*.exe,*.dll,*.manifest,*.rbc,*.class")
-vim.opt.wildignore:append(".ai,*.bmp,*.gif,*.ico,*.jpg,*.jpeg,*.png,*.psd,*.webp")
-vim.opt.wildignore:append(".avi,*.divx,*.mp4,*.webm,*.mov,*.m2ts,*.mkv,*.vob,*.mpg,*.mpeg")
-vim.opt.wildignore:append(".mp3,*.oga,*.ogg,*.wav,*.flac")
-vim.opt.wildignore:append(".eot,*.otf,*.ttf,*.woff")
-vim.opt.wildignore:append(".doc,*.pdf,*.cbr,*.cbz")
-vim.opt.wildignore:append(".zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz,*.kgb")
-vim.opt.wildignore:append(".swp,.lock,.DS_Store,._*")
-vim.opt.wildignore:append(".,..")
-
--- case insensitive search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.infercase = true
-
--- make backspace behave in a sane manner
-vim.opt.backspace = "indent,eol,start"
-
--- searching
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-vim.opt.inccommand = "split"
-
--- use indents of 2
-vim.opt.shiftwidth = 2
-
--- tabs are tabs
-vim.opt.expandtab = false
-
--- an indentation every 2 columns
-vim.opt.tabstop = 2
-
--- let backspace delete indent
-vim.opt.softtabstop = 2
-
--- enable auto indentation
-vim.opt.autoindent = true
-
--- [[ UI ]]
--- show matching brackets/parenthesis
-vim.opt.showmatch = true
-
--- disable startup message
-vim.opt.shortmess:append("sI")
-
--- cmd display (set to zero to autohide)
-vim.opt.cmdheight = 1
-
--- gutter sizing
-vim.opt.signcolumn = "auto:2"
-
--- syntax highlighting
-vim.opt.termguicolors = true
-vim.opt.synmaxcol = 512
-
--- show line numbers
-vim.opt.number = true
-
--- default no line wrapping
-vim.opt.wrap = false
-
--- set indents when wrapped
-vim.opt.breakindent = true
-
--- highlight cursor
-vim.opt.cursorline = true
--- set cursorcolumn = true
-
--- show invisibles
-vim.opt.listchars = { tab = "  ", trail = "·", extends = "»", precedes = "«", nbsp = "░" }
-vim.opt.list = true
-
--- split style
-vim.opt.fillchars = { vert = "▒" }
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-
--- custom tabline
-local noname = "[unnamed]"
-
-local function extract_filename(win)
-	local b = vim.api.nvim_win_get_buf(win)
-	local fullname = vim.api.nvim_buf_get_name(b)
-  local mod = vim.api.nvim_buf_get_option(b, 'modified') and "◈ " or ""
-	if fullname ~= "" then
-		local shortname = vim.fn.fnamemodify(fullname, ":~:.:gs%(.?[^/])[^/]*/%\1/%")
-		if #shortname > 30 then shortname = vim.fn.fnamemodify(fullname, ":t") end
-		return mod..shortname
-	end
+if vim.fn.has('nvim-0.9') == 1 then
+  vim.o.shortmess = 'CFOSWaco' -- Don't show "Scanning..." messages
+  vim.o.splitkeep = 'screen'   -- Reduce scroll during window split
 end
 
-local function get_best_window_filename(tabpage, window)
-	local filename = extract_filename(window)
-	if filename == nil then
-		local wins = vim.api.nvim_tabpage_list_wins(tabpage)
-		if #wins > 1 then
-			for _, win in ipairs(wins) do
-				filename = extract_filename(win)
-				break
-			end
-		end
-	end
-	if filename == nil then
-		return noname
-	end
-	return filename
+if vim.fn.has('nvim-0.10') == 0 then
+  vim.o.termguicolors = true -- Enable gui colors (Neovim>=0.10 does this automatically)
 end
 
-local function is_float_win(win)
-	local config = vim.api.nvim_win_get_config(win)
-	return config.zindex and config.zindex > 0
+-- Colors =====================================================================
+-- Enable syntax highlighing if it wasn't already (as it is time consuming)
+-- Don't use defer it because it affects start screen appearance
+if vim.fn.exists('syntax_on') ~= 1 then vim.cmd('syntax enable') end
+
+-- Editing ====================================================================
+vim.o.autoindent    = true     -- Use auto indent
+vim.o.expandtab     = true     -- Convert tabs to spaces
+vim.o.formatoptions = 'rqnl1j' -- Improve comment editing
+vim.o.ignorecase    = true     -- Ignore case when searching (use `\C` to force not doing that)
+vim.o.incsearch     = true     -- Show search results while typing
+vim.o.infercase     = true     -- Infer letter cases for a richer built-in keyword completion
+vim.o.shiftwidth    = 2        -- Use this number of spaces for indentation
+vim.o.smartcase     = true     -- Don't ignore case when searching if pattern has upper case
+vim.o.smartindent   = true     -- Make indenting smart
+vim.o.tabstop       = 2        -- Insert 2 spaces for a tab
+vim.o.virtualedit   = 'block'  -- Allow going past the end of line in visual block mode
+
+vim.o.iskeyword     = '@,48-57,_,192-255,-' -- Treat dash separated words as a word text object
+
+-- Define pattern for a start of 'numbered' list. This is responsible for
+-- correct formatting of lists when using `gw`. This basically reads as 'at
+-- least one special character (digit, -, +, *) possibly followed some
+-- punctuation (. or `)`) followed by at least one space is a start of list
+-- item'
+vim.o.formatlistpat = [[^\s*[0-9\-\+\*]\+[\.\)]*\s\+]]
+
+vim.o.completeopt = 'menuone,noselect' -- Show popup even with one item and don't autoselect first
+if vim.fn.has('nvim-0.11') == 1 then
+  vim.o.completeopt = 'menuone,noselect,fuzzy' -- Use fuzzy matching for built-in completion
 end
 
-local function getname(tabpage)
-	-- vim.F.npcall(vim.api.nvim_tabpage_get_var, tabpage, "tab_title")
-	local title = vim.t[tabpage].tab_title
-	if title ~= nil then
-		return title
-	end
 
-	local window = vim.api.nvim_tabpage_get_win(tabpage)
-	-- don't replace the last filename-buffer w/ floating windows
-	if is_float_win(window) then
-		return vim.t[tabpage].last_buffer_filename
-	end
+-- Folds ======================================================================
+vim.o.foldmethod  = 'indent' -- Set 'indent' folding method
+vim.o.foldlevel   = 99        -- Display all folds except top ones
+vim.o.foldnestmax = 10       -- Create folds only for some number of nested levels
+vim.g.markdown_folding = 1   -- Use folding by heading in markdown files
 
-	local filename = get_best_window_filename(tabpage, window)
-	vim.t[tabpage].last_buffer_filename = filename
-	return filename
+if vim.fn.has('nvim-0.10') == 1 then
+  vim.o.foldtext = ''        -- Use underlying text with its highlighting
 end
 
-function Tabline()
-	local tl = {}
-	local current = vim.api.nvim_get_current_tabpage()
-	for i, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
-		local hi = tabpage == current and "%#TabLineSel#" or "%#TabLine#"
-		local hiSep = tabpage == current and "%#TabLineSelSep#" or "%#TabLineSep#"
-		table.insert(tl, "%" .. i .. "T") -- mouse click target region
-		table.insert(tl, hi .. " " .. getname(tabpage) .. " ")
-		table.insert(tl, hiSep .. "▓▒░ " .. hi)
-	end
-	table.insert(tl, "%T") -- end mouse click region(s).
-	table.insert(tl, "%#TabLineFill#")
-	return table.concat(tl, '')
-end
+-- Custom autocommands ========================================================
+local augroup = vim.api.nvim_create_augroup('CustomSettings', {})
+vim.api.nvim_create_autocmd('FileType', {
+  group = augroup,
+  callback = function()
+    -- Don't auto-wrap comments and don't insert comment leader after hitting 'o'
+    -- If don't do this on `FileType`, this keeps reappearing due to being set in
+    -- filetype plugins.
+    vim.cmd('setlocal formatoptions-=c formatoptions-=o')
+  end,
+  desc = [[Ensure proper 'formatoptions']],
+})
 
-vim.opt.tabline = [[%!v:lua.Tabline()]]
+-- Diagnostics ================================================================
+local diagnostic_opts = {
+  float = { border = 'double' },
+  -- Show gutter sings
+  signs = {
+    -- With highest priority
+    priority = 9999,
+    -- Only for warnings and errors
+    severity = { min = 'WARN', max = 'ERROR' },
+  },
+  -- Show virtual text only for errors
+  virtual_text = { severity = { min = 'ERROR', max = 'ERROR' } },
+  -- Don't update diagnostics when typing
+  update_in_insert = false,
+}
+
+vim.diagnostic.config(diagnostic_opts)
+--stylua: ignore end
