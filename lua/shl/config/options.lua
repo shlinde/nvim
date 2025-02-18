@@ -15,6 +15,21 @@ vim.o.shada        = "'100,<50,s10,:1000,/100,@100,h" -- Limit what is stored in
 vim.cmd('filetype plugin indent on') -- Enable all filetype plugins
 
 -- UI =========================================================================
+-- Enable termguicolors
+vim.opt.termguicolors = true
+
+-- Set background to dark
+vim.opt.background = "dark"
+
+-- Set colorscheme to quiet
+vim.cmd("colorscheme quiet")
+
+-- Highlight settings
+vim.cmd("highlight Keyword gui=bold")
+vim.cmd("highlight Comment gui=italic")
+vim.cmd("highlight Constant guifg=#999999")
+vim.cmd("highlight NormalFloat guibg=#333333")
+
 vim.o.breakindent   = true      -- Indent wrapped lines to match line start
 vim.o.colorcolumn   = '+1'      -- Draw colored column one step to the right of desired maximum width
 vim.o.cursorline    = true      -- Enable highlighting of the current line
