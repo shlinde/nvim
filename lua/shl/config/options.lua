@@ -21,9 +21,6 @@ vim.opt.termguicolors = true
 -- Set background to dark
 vim.opt.background = "dark"
 
--- Set colorscheme to quiet
-vim.cmd("colorscheme quiet")
-
 -- Highlight settings
 vim.cmd("highlight Keyword gui=bold")
 vim.cmd("highlight Comment gui=italic")
